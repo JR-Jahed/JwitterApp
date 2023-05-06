@@ -1,37 +1,58 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
+import 'package:jwitter/constants.dart';
+import 'package:jwitter/providers/logged_in_user_provider.dart';
+import 'package:jwitter/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class CreateAccount extends StatelessWidget {
-  CreateAccount({Key? key}) : super(key: key);
+import 'data/user.dart';
 
-  final nameController = TextEditingController();
+
+
+class Login extends ConsumerWidget {
+
+  Login({super.key});
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final addressController = TextEditingController();
 
-  Future<void> sendData(final context) async {
+  Future<void> sendData(final context, final ref) async {
 
-    String endpoint = "http://10.0.2.2:8000/create_user/";
+    String endpoint = "http://10.0.2.2:8000/login/";
 
-    try {
+    // try {
       Response response = await post(
           Uri.parse(endpoint),
           body: {
-            'name': nameController.text,
             'email': emailController.text,
             'password': passwordController.text,
-            'address': addressController.text
           }
       );
 
       if (response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-                'Account created successfully !!!'
-            ),
-          ),
+
+        final data = response.body;
+        print("$data  -----  ${data.runtimeType}");
+
+        final json = jsonDecode(data);
+
+        print("$json  ????   ${json.runtimeType}");
+
+        final user = User.fromJson(json);
+
+        final sp = await SharedPreferences.getInstance();
+
+        sp.setString(
+          loggedInUser,
+          user.toString()
         );
+
+        ref.read(loggedInUserProvider.notifier).setUser = user;
+
+        Navigator.of(context).pushNamed(homeRoute);
       }
       else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -42,40 +63,30 @@ class CreateAccount extends StatelessWidget {
           ),
         );
       }
-    }
-    catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'An error occurred !!!',
-          ),
-        ),
-      );
-    }
+    // }
+    // catch (e) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(
+    //       content: Text(
+    //           'An error occurred !!!'
+    //       ),
+    //     ),
+    //   );
+    // }
   }
 
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Account'),
+        title: const Text(
+          'Login',
+        ),
       ),
       body: Center(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  hintText: 'Name',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.all(10),
               child: TextField(
@@ -101,22 +112,10 @@ class CreateAccount extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                controller: addressController,
-                decoration: InputDecoration(
-                  hintText: 'Address',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
               padding: const EdgeInsets.only(top: 20),
               child: ElevatedButton(
                 onPressed: () {
-                  sendData(context);
+                  sendData(context, ref);
                 },
                 child: const Text('Submit'),
               ),
