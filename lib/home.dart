@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
-import 'package:jwitter/providers/logged_in_user_provider.dart';
 import 'package:jwitter/routes.dart';
 import 'package:jwitter/username_login_button.dart';
 
@@ -16,7 +15,7 @@ class MyHomePage extends ConsumerWidget {
   Widget? widget;
 
   Future<String> getData() async {
-    String endpoint = "http://10.0.2.2:8000/get_users/";
+    String endpoint = "http://10.0.2.2:8000/get_tweets/";
 
     Response response = await get(Uri.parse(endpoint));
 
@@ -57,6 +56,36 @@ class MyHomePage extends ConsumerWidget {
           ],
         ),
       ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(createTweetRoute);
+        },
+        child: const Icon(
+          Icons.add,
+        ),
+      ),
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

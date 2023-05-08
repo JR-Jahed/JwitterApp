@@ -6,6 +6,7 @@ import 'package:jwitter/constants.dart';
 import 'package:jwitter/user_profile.dart';
 import 'package:jwitter/username_login_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'create_tweet.dart';
 import 'data/user.dart';
 import 'home.dart';
 import 'login.dart';
@@ -18,8 +19,13 @@ void main() async {
 
   final sp = await SharedPreferences.getInstance();
   final user = sp.getString(loggedInUser);
-  final json = jsonDecode(user!);
-  final userObject = User.fromJson(json);
+
+  var userObject;
+
+  if(user != null) {
+    final json = jsonDecode(user);
+    userObject = User.fromJson(json);
+  }
 
   runApp(
     ProviderScope(
@@ -36,10 +42,9 @@ void main() async {
           createAccountRoute: (context) => CreateAccount(),
           loginRoute: (context) => Login(),
           userProfileRoute: (context) => const UserProfile(),
+          createTweetRoute: (context) => CreateTweet(),
         },
       ),
     ),
   );
 }
-// {"name":"a","email":"a","password":"a","address":null}
-// {name: a, email: a, password: a, address: null}

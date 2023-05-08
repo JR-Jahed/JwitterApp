@@ -23,7 +23,7 @@ class Login extends ConsumerWidget {
 
     String endpoint = "http://10.0.2.2:8000/login/";
 
-    // try {
+    try {
       Response response = await post(
           Uri.parse(endpoint),
           body: {
@@ -35,11 +35,8 @@ class Login extends ConsumerWidget {
       if (response.statusCode == 200) {
 
         final data = response.body;
-        print("$data  -----  ${data.runtimeType}");
 
         final json = jsonDecode(data);
-
-        print("$json  ????   ${json.runtimeType}");
 
         final user = User.fromJson(json);
 
@@ -52,7 +49,7 @@ class Login extends ConsumerWidget {
 
         ref.read(loggedInUserProvider.notifier).setUser = user;
 
-        Navigator.of(context).pushNamed(homeRoute);
+        Navigator.of(context).pushNamedAndRemoveUntil(homeRoute, (route) => false);
       }
       else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -63,16 +60,16 @@ class Login extends ConsumerWidget {
           ),
         );
       }
-    // }
-    // catch (e) {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(
-    //       content: Text(
-    //           'An error occurred !!!'
-    //       ),
-    //     ),
-    //   );
-    // }
+    }
+    catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+              'An error occurred !!!'
+          ),
+        ),
+      );
+    }
   }
 
 
@@ -118,6 +115,26 @@ class Login extends ConsumerWidget {
                   sendData(context, ref);
                 },
                 child: const Text('Submit'),
+              ),
+            ),
+
+            const Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Text(
+                "Don't have account?",
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(createAccountRoute);
+                },
+                child: const Text('Create Account'),
               ),
             ),
           ],

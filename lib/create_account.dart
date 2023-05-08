@@ -28,10 +28,12 @@ class CreateAccount extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
-                'Account created successfully !!!'
+                'Account created successfully !!!',
             ),
           ),
         );
+
+        Navigator.of(context).pop();
       }
       else {
         ScaffoldMessenger.of(context).showSnackBar(

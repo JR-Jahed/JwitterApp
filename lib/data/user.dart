@@ -1,10 +1,12 @@
 class User {
+  int id;
   String name;
   String email;
   String password;
   String? address;
 
   User({
+    required this.id,
     required this.name,
     required this.email,
     required this.password,
@@ -12,6 +14,7 @@ class User {
   });
 
   User.fromJson(final json) :
+    id = json['id'],
     name = json['name'],
     email = json['email'],
     password = json['password'],
@@ -21,7 +24,6 @@ class User {
   @override
   String toString() {
 
-    return "{\"name\":\"a\",\"email\":\"a\",\"password\":\"a\",\"address\":null}";
+    return "{\"id\":$id,\"name\":\"$name\",\"email\":\"$email\",\"password\":\"$password\",\"address\":\"$address\"}";
   }
 }
-// {"name":"a","email":"a","password":"a","address":null}

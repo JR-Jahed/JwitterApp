@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jwitter/constants.dart';
 import 'package:jwitter/providers/logged_in_user_provider.dart';
+import 'package:jwitter/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProfile extends ConsumerWidget {
   const UserProfile({super.key});
@@ -16,6 +19,26 @@ class UserProfile extends ConsumerWidget {
         title: const Text(
           'Profile',
         ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+
+              final sp = await SharedPreferences.getInstance();
+              sp.remove(loggedInUser);
+
+              ref.read(loggedInUserProvider.notifier).setUser = null;
+
+              Navigator.of(context).pushNamedAndRemoveUntil(homeRoute, (route) => false);
+            },
+            child: const Text(
+              'Logout',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+              ),
+            ),
+          )
+        ],
       ),
       body: Center(
         child: Column(

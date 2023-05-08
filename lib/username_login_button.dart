@@ -21,7 +21,7 @@ class UsernameLoginButton extends ConsumerWidget {
         final user = ref.read(loggedInUserProvider.notifier).value;
 
         if (user == null) {
-          Navigator.of(context).pushNamed(userProfileRoute);
+          Navigator.of(context).pushNamed(loginRoute);
         }
         else {
           Navigator.of(context).pushNamed(userProfileRoute);
