@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jwitter/providers/logged_in_user_provider.dart';
-import 'package:jwitter/routes.dart';
+import 'package:jwitter/common/routes.dart';
 
-import 'data/user.dart';
+import '../data/user.dart';
 
 class UsernameLoginButton extends ConsumerWidget {
   UsernameLoginButton(this.user, {super.key});

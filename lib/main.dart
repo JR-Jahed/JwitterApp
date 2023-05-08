@@ -2,16 +2,16 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jwitter/constants.dart';
-import 'package:jwitter/user_profile.dart';
-import 'package:jwitter/username_login_button.dart';
+import 'package:jwitter/common/constants.dart';
+import 'package:jwitter/widgets/create_account.dart';
+import 'package:jwitter/widgets/login.dart';
+import 'package:jwitter/widgets/user_profile.dart';
+import 'package:jwitter/widgets/username_login_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'create_tweet.dart';
+import 'widgets/create_tweet.dart';
 import 'data/user.dart';
-import 'home.dart';
-import 'login.dart';
-import 'routes.dart';
-import 'create_account.dart';
+import 'widgets/home.dart';
+import 'common/routes.dart';
 
 void main() async {
 

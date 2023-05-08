@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:jwitter/routes.dart';
+import 'package:jwitter/common/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'constants.dart';
-import 'data/user.dart';
+import '../common/constants.dart';
+import '../data/user.dart';
 
 class CreateTweet extends StatelessWidget {
   CreateTweet({Key? key}) : super(key: key);

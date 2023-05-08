@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
-import 'package:jwitter/constants.dart';
+import 'package:jwitter/common/constants.dart';
 import 'package:jwitter/providers/logged_in_user_provider.dart';
-import 'package:jwitter/routes.dart';
+import 'package:jwitter/common/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'data/user.dart';
+import '../data/user.dart';
 
 
 
